@@ -1,0 +1,62 @@
+# Address Object
+
+`Address` could be represented in multiple forms: friendly and raw. Friendly one can have different flags set: `bounceable` and `testOnly`.
+In general you should always have `bounceable` flag set and `testOnly` is set depending on if you are working with production or test network.
+
+Library always strips out this flags and doesn't store them internally, this flags are always provided/resolved only during parsing or serialization.
+
+## Fields
+* `workChain` - address' worchain - `0` or `-1`
+* `hash` - address' hash - `32 byte buffer`
+
+## Parsing friendly address
+You should always use this parser when processing input from a user.
+
+```js
+import { Address } from 'ton';
+const friendlyParsed = Address.parseFriendly('kQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi47nL');
+console.log(friendly.isBounceable); // false
+console.log(friendly.isTestOnly); // true
+console.log(friendly.address); // Address itself
+```
+
+## Parsing RAW address
+```js
+import { Address } from 'ton';
+const address = Address.parseRaw(Buffer.from('2cf55953e92efbeadab7ba725c3f93a0b23f842cbba72d7b8e6f510a70e422e3', 'hex'));
+console.log(address.toFriendly()); // Address itself
+```
+
+## Parsing RAW or Friendly address
+This is a helper method that is useful for tests. This parser always ignore `bounceable` and `testOnly` flags;
+```js
+import { Address } from 'ton';
+const address = Address.parse('kQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi47nL');
+console.log(address.toFriendly()); // Address itself
+```
+
+## Address to friendly string
+
+```js
+import { Address } from 'ton';
+const address = Address.parse('kQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi47nL');
+console.log(address.toFriendly()); // Bounceable production address
+console.log(address.toFriendly({ testOnly: true })); // Bounceable test address
+console.log(address.toFriendly({ bounceable: true })); // Non-Bounceable production address
+```
+
+## Address to RAW string
+```js
+import { Address } from 'ton';
+const address = Address.parse('kQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi47nL');
+console.log(address.toString()); // RAW representation of an address
+```
+
+## Test equality
+Regardles of how you parse address you can always compare address to each other:
+```js
+import { Address } from 'ton';
+const address1 = Address.parseFriendly('kQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi47nL').address;
+const address2 = Address.parseRaw(Buffer.from('2cf55953e92efbeadab7ba725c3f93a0b23f842cbba72d7b8e6f510a70e422e3', 'hex'));
+console.log(address1.equals(address2)); // true
+```

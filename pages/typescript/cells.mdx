@@ -1,0 +1,41 @@
+# Cells
+
+Cells are immutable primitive in TON.
+
+## Create Cell
+
+To create a Cell you should use a `CellBuilder`. Methods replicate most of the FunC' Cell Builder.
+
+```js
+import { beginCell } from 'ton';
+
+const cell = beginCell()
+    .storeBit(0)
+    .storeUint(123123, 32)
+    .storeRef(beginCell()
+        .storeBitArray([0, 1, 0, 1])
+        .storeInt(-1, 1)
+        .storeUint8(12)
+    .endCell())
+    .storeBuffer(Buffer.from('Some string!'))
+    .endCell();
+```
+
+## Parse Cells
+
+```js
+const slice = cell.beginParse();
+const v0 = slice.readBit();
+const v1 = slice.readUint(32);
+const ref = slice.readCell(); // Cell
+const refSlice = slice.readRef(); // Slice
+```
+
+## Deserialize from BOC
+
+This parser could 
+
+```js
+const cells = Cell.fromBoc(Buffer.from('<serialized_boc>', 'base64'));
+const cell = cells[0]; // Almost always you will have a single cell
+```

@@ -10,11 +10,14 @@
   },
   "license": "MIT",
   "dependencies": {
+    "bn.js": "^5.2.0",
+    "buffer": "^6.0.3",
     "next": "^12.1.0",
     "nextra": "^1.1.0",
     "nextra-theme-docs": "^1.2.2",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "ton-crypto": "^2.1.0"
   },
   "devDependencies": {
     "prettier": "^2.0.5"

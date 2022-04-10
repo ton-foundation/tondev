@@ -1,6 +1,6 @@
 export default {
-  github: 'https://github.com/tonwhales/tondev',
-  docsRepositoryBase: 'https://github.com/tonwhales/tondev/blob/master',
+  github: 'https://github.com/ton-foundation/tondev',
+  docsRepositoryBase: 'https://github.com/ton-foundation/tondev/blob/master',
   titleSuffix: ' – TON',
   logo: (
     <>

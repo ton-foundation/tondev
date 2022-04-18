@@ -5,10 +5,12 @@ wasting too much gas.
 
 ```func
 randomize_lt();
-int index = rand(remainint_amount);
+
+;; Randomize through number of available choices in collection
+int index = rand(collection_size - minted);
 int value = 0;
 
-;; Pick id
+;; Check if index was used, if used, dict should store skipped index (see code after)
 (slice existing, int found) = cache.udict_get?(32, index);
 if (found) {
   value = existing~load_uint(32);
@@ -16,14 +18,14 @@ if (found) {
   value = index;
 }
 
-;; Dict continuity
-(slice tailValue, int foundTail) = cache.udict_get?(32, totalSize - 1);
+;; Store tail in cache[index], because random in next function call would not include it
+(slice tailValue, int foundTail) = cache.udict_get?(32, collection_size - minted - 1);
 if (foundTail) {
   cache~udict_set(32, index, tailValue);
 } else {
-  cache~udict_set_builder(32, index, begin_cell().store_uint(totalSize - 1, 32));
+  cache~udict_set_builder(32, index, begin_cell().store_uint(collection_size - minted - 1, 32));
 }
 
 ;; Cleanup tail
-cache~udict_delete?(32, totalSize);
+cache~udict_delete?(32, collection_size - minted - 1);
 ```

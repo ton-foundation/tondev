@@ -1,0 +1,23 @@
+# Sandbox Network
+
+Sandbox is a stable and performant network for developers managed by development community.
+
+## Connection parameters
+* TonWhales explorer: [tonwhales.com](https://tonwhales.com)
+* Classic API: [sandbox.tonhubapi.com](https://sandbox.tonhubapi.com)
+* HTTP v4 API: [sandbox-v4.tonhubapi.com](https://sandbox-v4.tonhubapi.com)
+* Network Config: `https://storage.googleapis.com/tonhub-configs/config-sandbox.json`
+
+## mytonctl and mining of sandbox coins
+Some givers are deployed to the network and the easiest way to get sandbox coins is to install `mytonctl` to your server and enable mining:
+
+```bash
+wget https://raw.githubusercontent.com/ton-blockchain/mytonctrl/master/scripts/install.sh
+sudo bash install.sh -t -m full -c https://storage.googleapis.com/tonhub-configs/config-sandbox.json
+```
+
+Then enable mining in `mytonctl` console:
+```bash
+> set powAddr kQBIvQmO__A23GXTaflina8BaUhZDzQTM0aSDNMlcXxa7qQe
+> mon
+```
